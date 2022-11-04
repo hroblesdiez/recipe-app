@@ -12,7 +12,7 @@
 
 </div>
 <div>
-  <span>Sass</span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span>Vanilla Javascript</span>&ensp;&ensp;&ensp;&ensp;&ensp;<span>HTML5</span>&ensp;&ensp;&ensp;&ensp;&ensp;<span>Spoonacular API</span>
+  <span>Sass</span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span>React</span>&ensp;&ensp;&ensp;&ensp;&ensp;<span>HTML5</span>&ensp;&ensp;&ensp;&ensp;&ensp;<span>Spoonacular API</span>
 </div>
 
 
