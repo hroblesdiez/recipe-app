@@ -16,7 +16,6 @@ function SearchResults() {
 
   useEffect(() => {
     getSearch(params.search);
-    console.log(params.search)
   }, [params.search]);
 
   return (
