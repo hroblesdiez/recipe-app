@@ -31,69 +31,35 @@ function DietForm() {
 
   const[results, setResults] = useState([]);
 
+  //Empty arrays to be filled with the user selections
   let cuisinesFiltered = [];
   let intolerancesFiltered = [];
   let dietsFiltered = [];
 
-   const handleCuisinesOnChange = (position) => {
-    const updatedCheckedCuisinesState = checkedCuisinesState.map((item, index) =>
-      index === position ? !item : item );
+  //manage the user selection and include data in an array of user selection
+  const handleArrayOnChange = ((arr, arrFiltered, state, setState, value, position) => {
+    const updatedCheckedArray = state.map((item, index) => index === position ? !item : item);
 
-    setCheckedCuisinesState(updatedCheckedCuisinesState);
+    setState(updatedCheckedArray);
 
-    updatedCheckedCuisinesState.forEach((item, index) => {
+    updatedCheckedArray.forEach((item, index) => {
       if(item === true) {
-        cuisinesFiltered.push(cuisines[index]);
+        arrFiltered.push(arr[index]);
       }
     });
 
     setValues({
       ...values,
-      cuisinesSelected: cuisinesFiltered,
-    });
-  }
+      value: arrFiltered,
+    })
+  });
+
+  //Params to include in the search API URL
   let cuisinesParam = values.cuisinesSelected.join().toLocaleLowerCase();
-
-  const handleIntolerancesOnChange = (position) => {
-    const updatedCheckedIntolerancesState = checkedIntolerancesState.map((item, index) =>
-      index === position ? !item : item );
-
-      setCheckedIntolerancesState(updatedCheckedIntolerancesState);
-
-      updatedCheckedIntolerancesState.forEach((item, index) => {
-      if(item === true) {
-        intolerancesFiltered.push(intolerances[index]);
-      }
-    });
-
-    setValues({
-      ...values,
-      intolerancesSelected: intolerancesFiltered,
-    });
-  }
   let intolerancesParam = values.intolerancesSelected.join().toLocaleLowerCase();
-
-
-  const handleDietsOnChange = (position) => {
-    const updatedCheckedDietsState = checkedDietsState.map((item, index) =>
-      index === position ? !item : item );
-
-      setCheckedDietsState(updatedCheckedDietsState);
-
-      updatedCheckedDietsState.forEach((item, index) => {
-      if(item === true) {
-        dietsFiltered.push(diets[index]);
-      }
-    });
-
-    setValues({
-      ...values,
-      dietsSelected: dietsFiltered,
-    });
-  }
   let dietsParam = values.dietsSelected.join().toLocaleLowerCase();
 
-
+  //Get the maximum amount of calories selected by user
   const handleCaloriesOnChange = (e) => {
     setValues({
       ...values,
@@ -102,6 +68,7 @@ function DietForm() {
 
   }
 
+  //Get the search results from the API and save it in const results
   const getDietResults = async () => {
 
     if(values.cuisinesSelected.length !== 0 || values.intolerancesSelected.length !== 0 || values.dietsSelected.length !== 0 || values.caloriesSelected !== null) {
@@ -111,13 +78,15 @@ function DietForm() {
       setResults(dietResults.results);
     }
   }
-  let infoResults;
 
+  //Handle form when submitted
   const handleSubmit = (e) => {
     e.preventDefault();
     getDietResults();
-
   }
+
+  //Show message if the user criteria doesn't match any recipe
+  let infoResults;
 
   if((results.length === 0 && (values.cuisinesSelected.length !== 0 || values.intolerancesSelected.length !== 0 || values.dietsSelected.length !== 0 || values.caloriesSelected !== null))) {
     infoResults = <p>No recipes matches your search criteria</p>;
@@ -139,7 +108,7 @@ function DietForm() {
                       return (
                         <div className='diet-form__input' key={item}>
                           <label htmlFor="">{item}</label>
-                          <input type="checkbox" id={item.toLocaleLowerCase()} name={item.toLocaleLowerCase()}  value={item.toLocaleLowerCase()} checked={checkedCuisinesState[index]} onChange={() => handleCuisinesOnChange(index)} ></input>
+                          <input type="checkbox" id={item.toLocaleLowerCase()} name={item.toLocaleLowerCase()}  value={item.toLocaleLowerCase()} checked={checkedCuisinesState[index]} onChange={() => handleArrayOnChange(cuisines, cuisinesFiltered, checkedCuisinesState, setCheckedCuisinesState, values.cuisinesSelected, index)} ></input>
                         </div>
                       )
                     })}
@@ -153,7 +122,7 @@ function DietForm() {
                         return (
                           <div className='diet-form__input' key={item}>
                             <label htmlFor="">{item}</label>
-                            <input type="checkbox" id={item.toLocaleLowerCase()} name={item.toLocaleLowerCase()}  value={item.toLocaleLowerCase()} checked={checkedDietsState[index]} onChange={() => handleDietsOnChange(index)}></input>
+                            <input type="checkbox" id={item.toLocaleLowerCase()} name={item.toLocaleLowerCase()}  value={item.toLocaleLowerCase()} checked={checkedDietsState[index]} onChange={() => handleArrayOnChange(diets, dietsFiltered, checkedDietsState, setCheckedDietsState, values.dietsSelected, index)}></input>
                           </div>
                         )
                       })}
@@ -167,7 +136,7 @@ function DietForm() {
                         return (
                           <div className='diet-form__input' key={item}>
                             <label htmlFor="">{item}</label>
-                            <input type="checkbox" id={item.toLocaleLowerCase()} name={item.toLocaleLowerCase()}  value={item.toLocaleLowerCase()} checked={checkedIntolerancesState[index]} onChange={() => handleIntolerancesOnChange(index)}></input>
+                            <input type="checkbox" id={item.toLocaleLowerCase()} name={item.toLocaleLowerCase()}  value={item.toLocaleLowerCase()} checked={checkedIntolerancesState[index]} onChange={() => handleArrayOnChange(intolerances, intolerancesFiltered, checkedIntolerancesState, setCheckedIntolerancesState, values.intolerancesSelected, index)}></input>
                           </div>
                         )
                       })}

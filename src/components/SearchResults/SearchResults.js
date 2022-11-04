@@ -16,6 +16,7 @@ function SearchResults() {
 
   useEffect(() => {
     getSearch(params.search);
+    console.log(params.search)
   }, [params.search]);
 
   return (
@@ -33,7 +34,7 @@ function SearchResults() {
       </div>
     ) }
 
-    {searchedRecipes.length === 0 && (
+    {(searchedRecipes.length === 0 && params.search !== undefined) && (
       <h4 className="search-results-none">No recipes matches your search. Please, try another one.</h4>
     )}
     </>
